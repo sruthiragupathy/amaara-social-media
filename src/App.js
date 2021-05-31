@@ -1,13 +1,14 @@
 import React from 'react';
 import './App.css';
 import { Routes, Route } from 'react-router-dom';
-import { PostsContainer } from './features';
+import { PostsContainer, SingleTweet } from './features';
 
 function App() {
 	return (
 		<div className='App'>
 			<Routes>
-				<Route to='/' element={<PostsContainer />}></Route>
+				<Route path='/tweet/:tweetId' element={<SingleTweet />}></Route>
+				<Route path='/' element={<PostsContainer />}></Route>
 			</Routes>
 		</div>
 	);
