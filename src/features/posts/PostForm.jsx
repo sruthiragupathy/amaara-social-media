@@ -11,8 +11,10 @@ export const PostForm = () => {
 
 	const onTweetPostClicked = (e) => {
 		e.preventDefault();
-		dispatch(tweetPosted({ tweet }));
-		setTweet('');
+		if (tweet) {
+			dispatch(tweetPosted({ tweet }));
+			setTweet('');
+		}
 	};
 
 	return (

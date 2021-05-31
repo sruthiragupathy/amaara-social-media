@@ -28,9 +28,16 @@ const postsSlice = createSlice({
 				userId: 1,
 			});
 		},
+		tweetEdited(state, { payload }) {
+			console.log(payload);
+			const editTweet = state.find((tweet) => tweet.id === payload.id);
+			if (editTweet) {
+				editTweet.post = payload.tweet;
+			}
+		},
 	},
 });
 
-export const { tweetPosted } = postsSlice.actions;
+export const { tweetPosted, tweetEdited } = postsSlice.actions;
 
 export default postsSlice.reducer;
