@@ -1,18 +1,16 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { PostCard } from './PostCard';
 
 export const PostsList = () => {
 	const posts = useSelector((state) => state.posts);
 	return (
 		<div className=''>
-			{posts.map(({ id, post, likes }) => {
+			{posts.map((post) => {
 				return (
-					<Link to={`/tweet/${id}`} key={id}>
-						<div className='border-2 mb-2'>
-							<div>{post}</div>
-							<div>{likes}</div>
-						</div>
+					<Link to={`/tweet/${post.id}`} key={post.id}>
+						<PostCard tweet={post} />
 					</Link>
 				);
 			})}

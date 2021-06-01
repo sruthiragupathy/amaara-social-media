@@ -55,14 +55,14 @@ export const SingleTweet = () => {
 	return (
 		<div>
 			{editable ? (
-				<input
+				<textarea
 					value={editTweet}
 					onChange={(e) => {
 						onEditTweetChanged(e);
 					}}
 				/>
 			) : (
-				<p>{currentTweet.post}</p>
+				<p className='whitespace-pre-line'>{currentTweet.post}</p>
 			)}
 			{editable ? (
 				<button

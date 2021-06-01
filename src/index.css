@@ -4,3 +4,22 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+	* {
+		@apply m-0 p-0 box-border;
+	}
+
+	body {
+		@apply font-body min-h-screen h-full;
+	}
+}
+
+@layer components {
+	.primary-btn {
+		@apply px-4 py-1 bg-purple-700 hover:bg-purple-800 text-gray-50 font-semibold rounded-2xl;
+	}
+	.img-logo {
+		@apply text-purple-700 font-semibold rounded-full h-6 w-6 p-4 flex items-center justify-center mr-2 border-2 border-purple-700;
+	}
+}
