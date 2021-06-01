@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 export const PostsList = () => {
 	const posts = useSelector((state) => state.posts);
 	return (
-		<div className='m-auto w-9/12'>
+		<div className=''>
 			{posts.map(({ id, post, likes }) => {
 				return (
 					<Link to={`/tweet/${id}`} key={id}>

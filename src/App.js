@@ -5,7 +5,7 @@ import { PostsContainer, SingleTweet } from './features';
 
 function App() {
 	return (
-		<div className='App'>
+		<div className='App text-gray-700 box-border'>
 			<Routes>
 				<Route path='/tweet/:tweetId' element={<SingleTweet />}></Route>
 				<Route path='/' element={<PostsContainer />}></Route>
