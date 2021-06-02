@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { PostCard } from './PostCard';
 
 export const PostsList = () => {
@@ -9,9 +9,9 @@ export const PostsList = () => {
 		<div className=''>
 			{posts.map((post) => {
 				return (
-					<Link to={`/tweet/${post.id}`} key={post.id}>
+					<NavLink to={`/tweet/${post.id}`} key={post.id}>
 						<PostCard tweet={post} />
-					</Link>
+					</NavLink>
 				);
 			})}
 		</div>

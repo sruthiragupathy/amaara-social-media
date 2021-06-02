@@ -91,7 +91,6 @@ const postsSlice = createSlice({
 			state.unshift({
 				id: nanoid(),
 				post: payload.tweet,
-				likes: 0,
 				userId: 1,
 				reactions: reactionsObject,
 				createdAt: new Date(),

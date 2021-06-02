@@ -1,6 +1,6 @@
 import { useDispatch } from 'react-redux';
-import { followUser } from '../currentUser/currentUserSlice';
-import { addCurrentUserToFollowersList } from './usersSlice';
+import { updateCurrentUserFollowing } from '../currentUser/currentUserSlice';
+import { followClicked } from './usersSlice';
 import { isCurrentUserFollowing } from '../../utils/utils';
 export const FollowButton = ({ currentUser, user }) => {
 	const { _id } = user;
@@ -8,13 +8,13 @@ export const FollowButton = ({ currentUser, user }) => {
 	const onFollowClicked = (e) => {
 		e.preventDefault();
 		dispatch(
-			addCurrentUserToFollowersList({
+			followClicked({
 				currentUserId: currentUser._id,
 				followedUserId: _id,
 			}),
 		);
 		dispatch(
-			followUser({
+			updateCurrentUserFollowing({
 				followedUserId: _id,
 			}),
 		);

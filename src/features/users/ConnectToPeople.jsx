@@ -10,7 +10,7 @@ export const ConnectToPeople = () => {
 			{users.map((user) => {
 				return currentUser._id !== user._id ? (
 					<NavLink to={`/${user.userName}`}>
-						<UserSuggestionCard user={user} currentUser={currentUser} />
+						<UserSuggestionCard userId={user._id} currentUser={currentUser} />
 					</NavLink>
 				) : null;
 			})}

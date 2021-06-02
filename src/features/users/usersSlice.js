@@ -9,7 +9,12 @@ const initialState = [
 		email: 'sruthiragupathy@gmail.com',
 		bio: 'A technology enthusiast | Tweet about my learnings, tech and #151daysofcode | Learning full stack web development | Neogrammer',
 		followers: [],
-		following: [],
+		following: [
+			{
+				_id: nanoid(),
+				userId: 2,
+			},
+		],
 		createdAt: '2021-01-31T10:00:00.000Z',
 	},
 	{
@@ -23,6 +28,11 @@ const initialState = [
 			{
 				_id: nanoid(),
 				userId: 1,
+			},
+
+			{
+				_id: nanoid(),
+				userId: 3,
 			},
 		],
 		following: [],
@@ -50,21 +60,26 @@ const usersSlice = createSlice({
 	name: 'users',
 	initialState,
 	reducers: {
-		addCurrentUserToFollowersList(state, { payload }) {
-			console.log(payload.followedUserId);
+		followClicked(state, { payload }) {
 			const followedUser = state.find((user) => {
 				console.log(user);
 				return user._id === payload.followedUserId;
 			});
-			console.log({ followedUser });
 			followedUser.followers.push({
 				_id: nanoid(),
 				userId: payload.currentUserId,
+			});
+			const currentUser = state.find((user) => {
+				return user._id === payload.currentUserId;
+			});
+			currentUser.following.push({
+				_id: nanoid(),
+				userId: payload.followedUserId,
 			});
 		},
 	},
 });
 
-export const { addCurrentUserToFollowersList } = usersSlice.actions;
+export const { followClicked } = usersSlice.actions;
 
 export default usersSlice.reducer;

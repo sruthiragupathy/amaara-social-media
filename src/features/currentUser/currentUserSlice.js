@@ -19,7 +19,7 @@ const currentUserSlice = createSlice({
 	name: 'currentUser',
 	initialState: currentUser,
 	reducers: {
-		followUser(state, { payload }) {
+		updateCurrentUserFollowing(state, { payload }) {
 			state.following.push({
 				_id: nanoid(),
 				userId: payload.followedUserId,
@@ -28,6 +28,6 @@ const currentUserSlice = createSlice({
 	},
 });
 
-export const { followUser } = currentUserSlice.actions;
+export const { updateCurrentUserFollowing } = currentUserSlice.actions;
 
 export default currentUserSlice.reducer;
