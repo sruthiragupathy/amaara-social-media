@@ -1,10 +1,9 @@
-import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { transformISOString } from '../../utils/utils';
 import { ReactionButtons } from './ReactionButtons';
 
 export const PostCard = ({ tweet }) => {
-	const { id, likes, post, userId, createdAt } = tweet;
+	const { post, userId, createdAt } = tweet;
 
 	const currentTweetUser = useSelector((state) => {
 		return state.users.find((user) => user._id === userId);

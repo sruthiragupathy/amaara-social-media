@@ -1,4 +1,4 @@
-const { createSlice } = require('@reduxjs/toolkit');
+const { createSlice, nanoid } = require('@reduxjs/toolkit');
 
 const initialState = [
 	{
@@ -7,31 +7,60 @@ const initialState = [
 		lastName: 'ragupathy',
 		userName: 'sruthiragupathy_',
 		email: 'sruthiragupathy@gmail.com',
-		followers: [
-			{
-				_id: 1,
-				userId: 2,
-			},
-		],
+		bio: 'A technology enthusiast | Tweet about my learnings, tech and #151daysofcode | Learning full stack web development | Neogrammer',
+		followers: [],
+		following: [],
 	},
 	{
 		_id: 2,
-		firstName: 'sruthi',
+		firstName: 'sriman',
 		lastName: 'ragupathy',
-		email: 'sruthiragupathy@gmail.com',
+		email: 'srimanragupathy@gmail.com',
+		userName: 'sriman_ram',
 		followers: [
 			{
-				_id: 1,
+				_id: nanoid(),
 				userId: 1,
 			},
 		],
+		following: [],
+	},
+	{
+		_id: 3,
+		firstName: 'tanay',
+		lastName: 'pratap',
+		email: 'tanaypratap@gmail.com',
+		userName: 'tanaypratap',
+		bio: `Senior Software Engineer 
+		Microsoft
+		 | ReactJS + TypeScript expert | Tech + Life + Career tweets here | Teaching 
+		neogcamp
+		 | Dev Jobs 
+		roc8HQ`,
+		followers: [],
+		following: [],
 	},
 ];
 
 const usersSlice = createSlice({
 	name: 'users',
 	initialState,
-	reducers: {},
+	reducers: {
+		addCurrentUserToFollowersList(state, { payload }) {
+			console.log(payload.followedUserId);
+			const followedUser = state.find((user) => {
+				console.log(user);
+				return user._id === payload.followedUserId;
+			});
+			console.log({ followedUser });
+			followedUser.followers.push({
+				_id: nanoid(),
+				userId: payload.currentUserId,
+			});
+		},
+	},
 });
+
+export const { addCurrentUserToFollowersList } = usersSlice.actions;
 
 export default usersSlice.reducer;

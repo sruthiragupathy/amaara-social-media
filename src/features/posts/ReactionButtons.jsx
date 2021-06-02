@@ -24,9 +24,6 @@ export const ReactionButtons = ({ tweet }) => {
 	};
 
 	const styleReactionButtons = (reactionEmoji) => {
-		console.log(
-			tweet.reactions[reactionEmoji].reactedUsers.includes(currentUser),
-		);
 		return tweet.reactions[reactionEmoji].reactedUsers.includes(currentUser)
 			? 'border-2 border-gray-300 bg-gray-100'
 			: '';
