@@ -49,7 +49,7 @@ const initialState = [
 				reactedUsers: [],
 			},
 		},
-		userId: 1,
+		userId: 2,
 		createdAt: '2021-01-31T10:00:00.000Z',
 	},
 	{

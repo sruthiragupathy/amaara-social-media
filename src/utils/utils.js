@@ -20,6 +20,11 @@ export const transformISOString = (ISOString) => {
 	return currentDate + ' ' + currentTime;
 };
 
+export const processJoinedDate = (ISOString) => {
+	const currentDate = new Date(ISOString).toUTCString().substring(5, 16);
+	return currentDate;
+};
+
 export const isCurrentUserFollowing = (currentUserfollowingArray, userId) => {
 	return currentUserfollowingArray.find(
 		(followedUser) => followedUser.userId === userId,

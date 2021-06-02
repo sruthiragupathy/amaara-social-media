@@ -10,12 +10,14 @@ const initialState = [
 		bio: 'A technology enthusiast | Tweet about my learnings, tech and #151daysofcode | Learning full stack web development | Neogrammer',
 		followers: [],
 		following: [],
+		createdAt: '2021-01-31T10:00:00.000Z',
 	},
 	{
 		_id: 2,
 		firstName: 'sriman',
 		lastName: 'ragupathy',
 		email: 'srimanragupathy@gmail.com',
+		bio: 'A technology enthusiast | Tweet about my learnings, tech and #151daysofcode | Learning full stack web development | Neogrammer',
 		userName: 'sriman_ram',
 		followers: [
 			{
@@ -24,6 +26,7 @@ const initialState = [
 			},
 		],
 		following: [],
+		createdAt: '2021-01-31T10:00:00.000Z',
 	},
 	{
 		_id: 3,
@@ -39,6 +42,7 @@ const initialState = [
 		roc8HQ`,
 		followers: [],
 		following: [],
+		createdAt: '2021-01-31T10:00:00.000Z',
 	},
 ];
 

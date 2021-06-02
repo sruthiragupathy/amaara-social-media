@@ -23,6 +23,6 @@
 		@apply px-4 py-1 border-2 border-purple-700 hover:bg-purple-100 text-purple-700 font-semibold rounded-2xl;
 	}
 	.img-logo {
-		@apply text-purple-700 font-semibold rounded-full h-6 w-6 p-4 flex items-center justify-center mr-2 border-2 border-purple-700;
+		@apply text-purple-700 font-semibold rounded-full h-6 w-6 p-4 flex items-center justify-center mr-3 border-2 border-purple-700;
 	}
 }
