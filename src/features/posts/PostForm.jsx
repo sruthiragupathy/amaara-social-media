@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { tweetPosted } from './postsSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { postTweet } from './postsSlice';
 import ImageOutlinedIcon from '@material-ui/icons/ImageOutlined';
 
 export const PostForm = () => {
@@ -8,12 +8,13 @@ export const PostForm = () => {
 	const onTweetChanged = (e) => {
 		setTweet(e.target.value);
 	};
+	const { status } = useSelector((state) => state.posts);
 	const dispatch = useDispatch();
 
 	const onTweetPostClicked = (e) => {
 		e.preventDefault();
 		if (tweet) {
-			dispatch(tweetPosted({ tweet }));
+			dispatch(postTweet({ tweet }));
 			setTweet('');
 		}
 	};

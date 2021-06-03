@@ -3,7 +3,6 @@ import { FollowButton } from './FollowButton';
 import { NavLink } from 'react-router-dom';
 
 export const UserSuggestionCard = ({ userId, currentUser }) => {
-	console.log({ userId, currentUser });
 	const user = useSelector((state) =>
 		state.users.find((user) => user._id === userId),
 	);

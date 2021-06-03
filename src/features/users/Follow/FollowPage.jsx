@@ -6,11 +6,9 @@ import { FollowNav } from './FollowNav';
 
 export const FollowPage = () => {
 	const { userName } = useParams();
-	console.log({ userName });
 	const user = useSelector((state) =>
 		state.users.find((user) => user.userName === userName),
 	);
-	console.log({ user });
 	const currentUser = useSelector((state) => state.currentUser);
 	const location = useLocation();
 

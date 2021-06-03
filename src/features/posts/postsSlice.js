@@ -1,101 +1,63 @@
-import { nanoid } from '@reduxjs/toolkit';
-const { createSlice } = require('@reduxjs/toolkit');
-const reactionsObject = {
-	thumbsUp: {
-		reactionsCount: 0,
-		reactedUsers: [],
-	},
-	hooray: {
-		reactionsCount: 0,
-		reactedUsers: [],
-	},
-	heart: {
-		reactionsCount: 0,
-		reactedUsers: [],
-	},
-	rocket: {
-		reactionsCount: 0,
-		reactedUsers: [],
-	},
-	eyes: {
-		reactionsCount: 0,
-		reactedUsers: [],
-	},
-};
+import axios from 'axios';
+import { BACKEND, TOKEN } from '../api';
+const { createSlice, createAsyncThunk } = require('@reduxjs/toolkit');
 
-const initialState = [
-	{
-		id: '1',
-		post: 'First post!',
-		reactions: {
-			thumbsUp: {
-				reactionsCount: 0,
-				reactedUsers: [],
-			},
-			hooray: {
-				reactionsCount: 0,
-				reactedUsers: [],
-			},
-			heart: {
-				reactionsCount: 0,
-				reactedUsers: [],
-			},
-			rocket: {
-				reactionsCount: 0,
-				reactedUsers: [],
-			},
-			eyes: {
-				reactionsCount: 0,
-				reactedUsers: [],
-			},
+export const loadPosts = createAsyncThunk('posts/loadPosts', async () => {
+	const response = await axios({
+		method: 'GET',
+		url: `${BACKEND}/tweets`,
+		headers: {
+			authorization: TOKEN,
 		},
-		userId: 2,
-		createdAt: '2021-01-31T10:00:00.000Z',
+	});
+	return response.data;
+});
+
+export const reactToPosts = createAsyncThunk(
+	'posts/reactToPosts',
+	async (payload) => {
+		const response = await axios({
+			method: 'POST',
+			url: `${BACKEND}/tweet/reactions/${payload.tweetId}`,
+			headers: {
+				authorization: TOKEN,
+			},
+			data: {
+				reactionName: payload.reactionName,
+				reactionCount: payload.reactionCount,
+			},
+		});
+		return response.data;
 	},
-	{
-		id: '2',
-		post: 'Second post!',
-		likes: 10,
-		reactions: {
-			thumbsUp: {
-				reactionsCount: 0,
-				reactedUsers: [],
+);
+
+export const postTweet = createAsyncThunk(
+	'posts/postTweet',
+	async ({ tweet }) => {
+		const response = await axios({
+			method: 'POST',
+			url: `${BACKEND}/tweet`,
+			headers: {
+				authorization: TOKEN,
 			},
-			hooray: {
-				reactionsCount: 0,
-				reactedUsers: [],
+			data: {
+				tweet,
 			},
-			heart: {
-				reactionsCount: 0,
-				reactedUsers: [],
-			},
-			rocket: {
-				reactionsCount: 0,
-				reactedUsers: [],
-			},
-			eyes: {
-				reactionsCount: 0,
-				reactedUsers: [],
-			},
-		},
-		userId: 1,
-		createdAt: '2019-01-31T10:00:00.000Z',
+		});
+		return response.data;
 	},
-];
+);
+
+const initialState = {
+	tweets: [],
+	status: 'idle',
+	error: null,
+};
 
 const postsSlice = createSlice({
 	name: 'posts',
 	initialState,
 	reducers: {
-		tweetPosted(state, { payload }) {
-			state.unshift({
-				id: nanoid(),
-				post: payload.tweet,
-				userId: 1,
-				reactions: reactionsObject,
-				createdAt: new Date(),
-			});
-		},
 		tweetEdited(state, { payload }) {
 			const editTweet = state.find((tweet) => tweet.id === payload.id);
 			if (editTweet) {
@@ -108,24 +70,31 @@ const postsSlice = createSlice({
 			);
 			state.splice(deleteTweetIndex, 1);
 		},
-		tweetReacted(state, { payload }) {
-			const currentTweet = state.find((tweet) => tweet.id === payload.tweetId);
-			if (
-				currentTweet.reactions[payload.reactionName].reactedUsers.includes(
-					payload.currentUser,
-				)
-			) {
-				currentTweet.reactions[payload.reactionName].reactionsCount -= 1;
-				currentTweet.reactions[payload.reactionName].reactedUsers =
-					currentTweet.reactions[payload.reactionName].reactedUsers.filter(
-						(user) => user !== payload.currentUser,
-					);
-			} else {
-				currentTweet.reactions[payload.reactionName].reactionsCount += 1;
-				currentTweet.reactions[payload.reactionName].reactedUsers.push(
-					payload.currentUser,
-				);
-			}
+	},
+	extraReducers: {
+		[loadPosts.pending]: (state, action) => {
+			state.status = 'loading';
+		},
+		[loadPosts.fulfilled]: (state, action) => {
+			state.tweets = action.payload.tweets;
+			state.status = 'succeeded';
+		},
+		[reactToPosts.pending]: (state, action) => {
+			state.status = 'loading';
+		},
+		[reactToPosts.fulfilled]: (state, action) => {
+			const tweetIndex = state.tweets.findIndex(
+				(tweet) => tweet._id === action.payload.tweet._id,
+			);
+			state.tweets[tweetIndex] = action.payload.tweet;
+			state.status = 'succeeded';
+		},
+		[postTweet.pending]: (state, action) => {
+			state.status = 'loading';
+		},
+		[postTweet.fulfilled]: (state, action) => {
+			state.tweets.unshift(action.payload.tweet);
+			state.status = 'succeeded';
 		},
 	},
 });

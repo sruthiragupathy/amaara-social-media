@@ -10,12 +10,9 @@ export const UserProfile = () => {
 		state.users.find((user) => user.userName === userName),
 	);
 
-	console.log({ user });
-
 	const userTweets = useSelector((state) =>
 		state.posts.filter((post) => post.userId === user._id),
 	);
-	console.log({ userTweets });
 	return (
 		<div className=''>
 			<UserHeader user={user} userTweets={userTweets} />

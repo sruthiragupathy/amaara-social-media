@@ -1,5 +1,5 @@
-import { useDispatch } from 'react-redux';
-import { tweetReacted } from './postsSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { reactToPosts } from './postsSlice';
 
 const reactionEmoji = {
 	thumbsUp: '👍',
@@ -9,24 +9,30 @@ const reactionEmoji = {
 	eyes: '👀',
 };
 
-export const ReactionButtons = ({ tweet }) => {
-	const currentUser = 123;
+export const ReactionButtons = ({ tweetObj }) => {
+	const { currentUser } = useSelector((state) => state.currentUser);
+	const currentUserId = currentUser._id;
+
+	console.log({ tweetObj });
 	const dispatch = useDispatch();
 	const onReactEmojiClicked = (e) => {
 		e.preventDefault();
 		dispatch(
-			tweetReacted({
-				currentUser: currentUser,
+			reactToPosts({
+				tweetId: tweetObj._id,
 				reactionName: e.target.name,
-				tweetId: tweet.id,
+				reactionCount: tweetObj[e.target.name].reactedUsers.length,
 			}),
 		);
 	};
 
 	const styleReactionButtons = (reactionEmoji) => {
-		return tweet.reactions[reactionEmoji].reactedUsers.includes(currentUser)
-			? 'border-2 border-gray-300 bg-gray-100'
-			: '';
+		const isCurrentUserReacted = tweetObj[reactionEmoji].reactedUsers.find(
+			(user) => user._id === currentUserId,
+		);
+		console.log({ isCurrentUserReacted });
+		return isCurrentUserReacted ? 'border-2 border-gray-300 bg-gray-100' : '';
+		// return '';
 	};
 	return (
 		<div className='mt-4'>
@@ -36,8 +42,7 @@ export const ReactionButtons = ({ tweet }) => {
 						className={`mr-3 p-1 ${styleReactionButtons(emojiname)}`}
 						name={emojiname}
 						onClick={(e) => onReactEmojiClicked(e)}>
-						{reactionEmoji[emojiname]}{' '}
-						{tweet.reactions[emojiname].reactedUsers.length}
+						{reactionEmoji[emojiname]} {tweetObj[emojiname].reactedUsers.length}
 					</button>
 				);
 			})}

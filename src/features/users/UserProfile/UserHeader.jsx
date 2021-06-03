@@ -6,9 +6,6 @@ import { NavLink } from 'react-router-dom';
 import { UserInfo } from './UserInfo';
 
 export const UserHeader = ({ user, userTweets }) => {
-	console.log({ user });
-	console.log(user.userName);
-
 	const currentUser = useSelector((state) => state.currentUser);
 	return (
 		<>

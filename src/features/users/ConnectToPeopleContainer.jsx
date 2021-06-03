@@ -1,4 +1,3 @@
-import { NavLink } from 'react-router-dom';
 import { ConnectToPeople } from './ConnectToPeople';
 
 export const ConnectToPeopleContainer = () => {
