@@ -32,3 +32,18 @@ export const isCurrentUserFollowing = (currentUserfollowingArray, userId) => {
 		? true
 		: false;
 };
+
+export const reactionEmoji = {
+	thumbsUp: '👍',
+	hooray: '🎉',
+	heart: '❤️',
+	rocket: '🚀',
+	eyes: '👀',
+};
+
+export const statusEnum = {
+	IDLE: 0,
+	LOADING: 1,
+	SUCCESS: 2,
+	REJECTED: 3,
+};

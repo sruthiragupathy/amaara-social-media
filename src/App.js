@@ -20,17 +20,17 @@ function App() {
 
 	useEffect(() => {
 		(async function () {
-			if (users.status === 'idle') dispatch(loadUsers());
+			if (users.status === 'idle') await dispatch(loadUsers());
 		})();
 		(async function () {
-			if (currentUser.status === 'idle') dispatch(loadCurrentUser());
+			if (currentUser.status === 'idle') await dispatch(loadCurrentUser());
 		})();
 	}, [dispatch, users.status, currentUser.status]);
-
+	console.log(currentUser.status);
 	// useEffect(() => {}, [dispatch, currentUser.status]);
 
-	return (
-		<div className='App text-gray-600 box-border md:w-9/12 md:m-auto my-2 mx-2'>
+	return currentUser.status === 'success' ? (
+		<div className='App text-gray-600 box-border md:w-1/2 md:m-auto my-2 mx-2'>
 			<Routes>
 				<Route path='/connect' element={<ConnectToPeopleContainer />}></Route>
 				<Route path='/tweet/:tweetId' element={<SingleTweet />}></Route>
@@ -38,8 +38,10 @@ function App() {
 				<Route path='/:userName/following' element={<FollowPage />}></Route>
 				<Route path='/:userName/followers' element={<FollowPage />}></Route>
 				<Route path='/' element={<PostsContainer />}></Route>
-			</Routes>
+			</Routes>{' '}
 		</div>
+	) : (
+		<p>Loading...</p>
 	);
 }
 

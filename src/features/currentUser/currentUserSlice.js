@@ -15,7 +15,7 @@ export const loadCurrentUser = createAsyncThunk(
 	},
 );
 const initialState = {
-	currentUser: {},
+	currentUser: null,
 	status: 'idle',
 };
 
@@ -36,7 +36,7 @@ const currentUserSlice = createSlice({
 		},
 		[loadCurrentUser.fulfilled]: (state, action) => {
 			state.currentUser = action.payload.user;
-			state.status = 'succeeded';
+			state.status = 'success';
 		},
 	},
 });

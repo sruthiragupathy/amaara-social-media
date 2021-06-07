@@ -8,7 +8,7 @@ export const PostCard = ({ tweetObj }) => {
 	const { currentUser } = useSelector((state) => state.currentUser);
 
 	return (
-		<div className='flex items-start justify-start py-3 px-1 md:px-0 border-b hover:bg-gray-50 '>
+		<div className='flex items-start justify-start my-6 py-3 px-1 md:px-2 rounded-lg bg-gray-50 my-2'>
 			<NavLink to={`/${userId.userName}`}>
 				<div className='img-logo uppercase'>
 					{' '}
@@ -31,7 +31,7 @@ export const PostCard = ({ tweetObj }) => {
 					</span>
 				</div>
 				<div className='whitespace-pre-line'>{tweet}</div>
-				<ReactionButtons tweetObj={tweetObj} currentUserId={currentUser._id} />
+				<ReactionButtons tweetObj={tweetObj} />
 			</div>
 		</div>
 	);

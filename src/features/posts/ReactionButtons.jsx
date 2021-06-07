@@ -13,10 +13,10 @@ export const ReactionButtons = ({ tweetObj }) => {
 	const { currentUser } = useSelector((state) => state.currentUser);
 	const currentUserId = currentUser._id;
 
-	console.log({ tweetObj });
 	const dispatch = useDispatch();
 	const onReactEmojiClicked = (e) => {
 		e.preventDefault();
+		console.log('react');
 		dispatch(
 			reactToPosts({
 				tweetId: tweetObj._id,
@@ -30,8 +30,9 @@ export const ReactionButtons = ({ tweetObj }) => {
 		const isCurrentUserReacted = tweetObj[reactionEmoji].reactedUsers.find(
 			(user) => user._id === currentUserId,
 		);
-		console.log({ isCurrentUserReacted });
-		return isCurrentUserReacted ? 'border-2 border-gray-300 bg-gray-100' : '';
+		return isCurrentUserReacted
+			? 'border-2 border-purple-600 bg-purple-50 rounded-md'
+			: '';
 		// return '';
 	};
 	return (

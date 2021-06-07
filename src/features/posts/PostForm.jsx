@@ -5,10 +5,11 @@ import ImageOutlinedIcon from '@material-ui/icons/ImageOutlined';
 
 export const PostForm = () => {
 	const [tweet, setTweet] = useState('');
+	const { currentUser } = useSelector((state) => state.currentUser);
+	console.log({ currentUser });
 	const onTweetChanged = (e) => {
 		setTweet(e.target.value);
 	};
-	const { status } = useSelector((state) => state.posts);
 	const dispatch = useDispatch();
 
 	const onTweetPostClicked = (e) => {
@@ -22,11 +23,14 @@ export const PostForm = () => {
 	return (
 		<form onSubmit={(e) => onTweetPostClicked(e)}>
 			<div className='flex px-1 items-start mt-4 border-b'>
-				<div className='img-logo'>SR</div>
+				<div className='img-logo'>
+					{currentUser?.firstName[0]}
+					{currentUser?.lastName[0]}
+				</div>
 				<div className='w-full'>
 					<div className=''>
 						<textarea
-							className='w-full py-1 px-2 h-20 outline-none border-b'
+							className='w-full py-1 px-2 h-24 outline-none border-b'
 							placeholder='Add a tweet'
 							value={tweet}
 							onChange={(e) => onTweetChanged(e)}
@@ -36,7 +40,12 @@ export const PostForm = () => {
 						<div>
 							<ImageOutlinedIcon fontSize='large' color='inherit' />
 						</div>
-						<button type='submit' className='primary-btn'>
+						<button
+							type='submit'
+							className={`primary-btn ${
+								tweet.length === 0 ? 'opacity-50' : ''
+							}`}
+							disabled={tweet.length === 0}>
 							Tweet
 						</button>
 					</div>
