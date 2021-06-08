@@ -1,40 +1,45 @@
-import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useParams } from 'react-router';
 import { UserInfo } from '../UserProfile/UserInfo';
+import { getUserProfileByUserName } from '../usersSlice';
 import { UserSuggestionCard } from '../UserSuggestionCard';
 import { FollowNav } from './FollowNav';
 
 export const FollowPage = () => {
 	const { userName } = useParams();
-	const user = useSelector((state) =>
-		state.users.find((user) => user.userName === userName),
-	);
-	const currentUser = useSelector((state) => state.currentUser);
+	const dispatch = useDispatch();
+	useEffect(() => {
+		dispatch(getUserProfileByUserName({ userName }));
+	}, []);
 	const location = useLocation();
-
+	const { userProfile, userTweets } = useSelector((state) => state.users);
+	const { currentUser } = useSelector((state) => state.currentUser);
 	return (
-		<div>
-			<UserInfo />
-			<FollowNav userName={user.userName} />
+		userProfile && (
 			<div>
-				{location.pathname.includes('following')
-					? user.following.map((followingUser) => {
-							return (
-								<UserSuggestionCard
-									userId={followingUser.userId}
-									currentUser={currentUser}
-								/>
-							);
-					  })
-					: user.followers.map((follower) => {
-							return (
-								<UserSuggestionCard
-									userId={follower.userId}
-									currentUser={currentUser}
-								/>
-							);
-					  })}
+				<UserInfo user={userProfile} userTweets={userTweets} />
+				<FollowNav userName={userProfile.userName} />
+				<div>
+					{location.pathname.includes('following')
+						? userProfile?.followingList?.map((followingUser) => {
+								return (
+									<UserSuggestionCard
+										userProfile={followingUser.user}
+										currentUser={currentUser}
+									/>
+								);
+						  })
+						: userProfile.followersList.map((follower) => {
+								return (
+									<UserSuggestionCard
+										userProfile={userProfile}
+										currentUser={currentUser}
+									/>
+								);
+						  })}
+				</div>
 			</div>
-		</div>
+		)
 	);
 };

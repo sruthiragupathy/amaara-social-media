@@ -32,7 +32,6 @@ export const ReactionButtons = ({ tweetObj }) => {
 		return isCurrentUserReacted
 			? 'border-2 border-purple-600 bg-purple-50 rounded-md'
 			: '';
-		// return '';
 	};
 	return (
 		<div className='mt-4'>

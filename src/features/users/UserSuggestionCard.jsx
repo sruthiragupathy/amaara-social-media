@@ -2,11 +2,8 @@ import { useSelector } from 'react-redux';
 import { FollowButton } from './FollowButton';
 import { NavLink } from 'react-router-dom';
 
-export const UserSuggestionCard = ({ userId, currentUser }) => {
-	const user = useSelector((state) =>
-		state.users.find((user) => user._id === userId),
-	);
-	const { firstName, lastName, userName, bio } = user;
+export const UserSuggestionCard = ({ userProfile, currentUser }) => {
+	const { firstName, lastName, userName, bio } = userProfile;
 
 	return (
 		<NavLink to={`/${userName}`}>
@@ -24,9 +21,13 @@ export const UserSuggestionCard = ({ userId, currentUser }) => {
 							</span>{' '}
 							<span className='text-gray-400 text-sm'>@{userName}</span>
 						</div>
-						<FollowButton currentUser={currentUser} user={user} />
+						<FollowButton currentUser={currentUser} user={userProfile} />
 					</div>
-					<div>{bio}</div>
+					<div>
+						A technology enthusiast👩‍💻 | Tweet about my learnings, tech and
+						#151daysofcode | Learning full stack web development | Neogrammer
+						@neogcamp
+					</div>
 				</div>
 			</div>
 		</NavLink>
