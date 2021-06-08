@@ -20,7 +20,9 @@ export const UserHeader = ({ user, userTweets }) => {
 						<div className='self-end'>
 							<FollowButton currentUser={currentUser} user={user} />
 						</div>
-					) : null}
+					) : (
+						<button className='secondary-btn self-end'>Edit Profile</button>
+					)}
 				</div>
 				<div className='text-left'>
 					<h2 className='text-2xl font-semibold text-left capitalize'>
