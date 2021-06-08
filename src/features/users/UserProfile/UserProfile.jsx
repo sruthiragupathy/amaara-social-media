@@ -1,28 +1,32 @@
-import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import { NavLink } from 'react-router-dom';
 import { PostCard } from '../../posts/PostCard';
+import { getUserProfileByUserName } from '../usersSlice';
 import { UserHeader } from './UserHeader';
 
 export const UserProfile = () => {
 	const { userName } = useParams();
-	const user = useSelector((state) =>
-		state.users.find((user) => user.userName === userName),
-	);
-
-	const userTweets = useSelector((state) =>
-		state.posts.filter((post) => post.userId === user._id),
-	);
+	const dispatch = useDispatch();
+	const { userProfile, userTweets } = useSelector((state) => state.users);
+	useEffect(() => {
+		dispatch(getUserProfileByUserName({ userName }));
+	}, []);
 	return (
-		<div className=''>
-			<UserHeader user={user} userTweets={userTweets} />
-			{userTweets.map((tweet) => {
-				return (
-					<NavLink to={`/tweet/${tweet.id}`} key={tweet.id}>
-						<PostCard tweet={tweet} />;
-					</NavLink>
-				);
-			})}
-		</div>
+		<>
+			{userProfile && userTweets && (
+				<div className=''>
+					<UserHeader user={userProfile} userTweets={userTweets} />
+					{userTweets.map((tweet) => {
+						return (
+							<NavLink to={`/tweet/${tweet._id}`} key={tweet._id}>
+								<PostCard tweetObj={tweet} />
+							</NavLink>
+						);
+					})}
+				</div>
+			)}
+		</>
 	);
 };

@@ -27,7 +27,7 @@ export const processJoinedDate = (ISOString) => {
 
 export const isCurrentUserFollowing = (currentUserfollowingArray, userId) => {
 	return currentUserfollowingArray.find(
-		(followedUser) => followedUser.userId === userId,
+		(followedUser) => followedUser.user._id === userId,
 	)
 		? true
 		: false;

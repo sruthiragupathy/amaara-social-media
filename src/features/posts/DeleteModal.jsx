@@ -9,7 +9,6 @@ export const DeleteModal = ({ tweetId }) => {
 
 	const onDeleteClicked = async () => {
 		await dispatch(deleteTweet({ tweetId }));
-		console.log(status.DELETE_TWEET);
 
 		navigate('/', { replace: true });
 	};

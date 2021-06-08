@@ -1,5 +1,6 @@
 import { BACKEND, TOKEN } from '../api';
 import axios from 'axios';
+import { statusEnum } from '../../utils/utils';
 const { createSlice, nanoid, createAsyncThunk } = require('@reduxjs/toolkit');
 
 export const loadUsers = createAsyncThunk('posts/loadUsers', async () => {
@@ -13,9 +14,28 @@ export const loadUsers = createAsyncThunk('posts/loadUsers', async () => {
 	return response.data;
 });
 
+export const getUserProfileByUserName = createAsyncThunk(
+	'posts/getUserProfileByUserName',
+	async ({ userName }) => {
+		const response = await axios({
+			method: 'GET',
+			url: `${BACKEND}/profile/${userName}`,
+			headers: {
+				authorization: TOKEN,
+			},
+		});
+		return response.data;
+	},
+);
+
 const initialState = {
 	users: [],
-	status: 'idle',
+	userProfile: null,
+	userTweets: null,
+	status: {
+		LOAD_USERS: 0,
+		GET_USER_DETAILS: 0,
+	},
 	error: null,
 };
 const usersSlice = createSlice({
@@ -41,11 +61,19 @@ const usersSlice = createSlice({
 	},
 	extraReducers: {
 		[loadUsers.pending]: (state, action) => {
-			state.status = 'loading';
+			state.status.LOAD_USERS = statusEnum['LOADING'];
 		},
 		[loadUsers.fulfilled]: (state, action) => {
-			state.tweets = action.payload.users;
-			state.status = 'succeeded';
+			state.users = action.payload.users;
+			state.status.LOAD_USERS = statusEnum['SUCCESS'];
+		},
+		[getUserProfileByUserName.pending]: (state, action) => {
+			state.status.GET_USER_DETAILS = statusEnum['LOADING'];
+		},
+		[getUserProfileByUserName.fulfilled]: (state, action) => {
+			state.userProfile = action.payload.userProfile;
+			state.userTweets = action.payload.tweets;
+			state.status.GET_USER_DETAILS = statusEnum['SUCCESS'];
 		},
 	},
 });

@@ -8,7 +8,7 @@ export const PostCard = ({ tweetObj }) => {
 	const { currentUser } = useSelector((state) => state.currentUser);
 
 	return (
-		<div className='flex items-start justify-start my-6 py-3 px-1 md:px-2 rounded-lg bg-gray-50 my-2'>
+		<div className='flex items-start justify-start mb-4 py-3 px-1 md:px-2 rounded-lg bg-gray-50'>
 			<NavLink to={`/${userId.userName}`}>
 				<div className='img-logo uppercase'>
 					{' '}

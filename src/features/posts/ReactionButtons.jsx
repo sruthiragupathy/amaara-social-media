@@ -16,7 +16,6 @@ export const ReactionButtons = ({ tweetObj }) => {
 	const dispatch = useDispatch();
 	const onReactEmojiClicked = (e) => {
 		e.preventDefault();
-		console.log('react');
 		dispatch(
 			reactToPosts({
 				tweetId: tweetObj._id,

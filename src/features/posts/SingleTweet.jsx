@@ -31,8 +31,6 @@ export const SingleTweet = () => {
 		dispatch(loadCurrentTweet({ tweetId }));
 	}, []);
 
-	console.log({ editable });
-
 	const getLikesCount = () => {
 		return Object.keys(reactionEmoji).reduce((acc, element) => {
 			return acc + currentTweet[element].reactedUsers.length;

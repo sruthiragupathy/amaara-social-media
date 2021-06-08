@@ -20,14 +20,12 @@ function App() {
 
 	useEffect(() => {
 		(async function () {
-			if (users.status === 'idle') await dispatch(loadUsers());
+			if (users.status.LOAD_USERS === 0) await dispatch(loadUsers());
 		})();
 		(async function () {
 			if (currentUser.status === 'idle') await dispatch(loadCurrentUser());
 		})();
 	}, [dispatch, users.status, currentUser.status]);
-	console.log(currentUser.status);
-	// useEffect(() => {}, [dispatch, currentUser.status]);
 
 	return currentUser.status === 'success' ? (
 		<div className='App text-gray-600 box-border md:w-1/2 md:m-auto my-2 mx-2'>

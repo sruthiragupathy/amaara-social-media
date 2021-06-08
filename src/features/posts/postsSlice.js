@@ -83,7 +83,6 @@ export const updateTweet = createAsyncThunk(
 export const deleteTweet = createAsyncThunk(
 	'posts/deleteTweet',
 	async (payload) => {
-		console.log(payload.tweetId);
 		const response = await axios({
 			method: 'DELETE',
 			url: `${BACKEND}/tweet/${payload.tweetId}`,

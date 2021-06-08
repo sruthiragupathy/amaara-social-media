@@ -6,7 +6,7 @@ import ImageOutlinedIcon from '@material-ui/icons/ImageOutlined';
 export const PostForm = () => {
 	const [tweet, setTweet] = useState('');
 	const { currentUser } = useSelector((state) => state.currentUser);
-	console.log({ currentUser });
+
 	const onTweetChanged = (e) => {
 		setTweet(e.target.value);
 	};
