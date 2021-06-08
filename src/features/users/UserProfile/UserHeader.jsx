@@ -11,17 +11,17 @@ export const UserHeader = ({ user, userTweets }) => {
 		<>
 			<UserInfo user={user} userTweets={userTweets} />
 			<div className='border-b'>
-				<div className='my-4 flex'>
+				<div className='my-4 flex justify-between'>
 					<div className='img-logo uppercase p-10 text-2xl'>
 						<span>{user.firstName[0]}</span>
 						<span>{user.lastName[0]}</span>
 					</div>
 					{user._id !== currentUser._id ? (
-						<div className='self-end'>
+						<div className='self-center'>
 							<FollowButton currentUser={currentUser} user={user} />
 						</div>
 					) : (
-						<button className='secondary-btn self-end'>Edit Profile</button>
+						<button className='secondary-btn self-center'>Edit Profile</button>
 					)}
 				</div>
 				<div className='text-left'>

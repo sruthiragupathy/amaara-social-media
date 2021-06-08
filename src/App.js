@@ -11,6 +11,7 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import { loadUsers } from './features/users/usersSlice';
 import { loadCurrentUser } from './features/currentUser/currentUserSlice';
+import { statusEnum } from './utils/utils';
 
 function App() {
 	const users = useSelector((state) => state.users);
@@ -23,11 +24,12 @@ function App() {
 			if (users.status.LOAD_USERS === 0) await dispatch(loadUsers());
 		})();
 		(async function () {
-			if (currentUser.status === 'idle') await dispatch(loadCurrentUser());
+			if (currentUser.status.LOAD_CURRENT_USER === 0)
+				await dispatch(loadCurrentUser());
 		})();
 	}, [dispatch, users.status, currentUser.status]);
-
-	return currentUser.status === 'success' ? (
+	console.log(currentUser.status.LOAD_CURRENT_USER);
+	return currentUser ? (
 		<div className='App text-gray-600 box-border md:w-1/2 md:m-auto my-2 mx-2'>
 			<Routes>
 				<Route path='/connect' element={<ConnectToPeopleContainer />}></Route>

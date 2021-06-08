@@ -12,7 +12,7 @@ export const UserProfile = () => {
 	const { userProfile, userTweets } = useSelector((state) => state.users);
 	useEffect(() => {
 		dispatch(getUserProfileByUserName({ userName }));
-	}, []);
+	}, [userProfile]);
 	return (
 		<>
 			{userProfile && userTweets && (

@@ -9,11 +9,12 @@ import { FollowNav } from './FollowNav';
 export const FollowPage = () => {
 	const { userName } = useParams();
 	const dispatch = useDispatch();
+	const { userProfile, userTweets } = useSelector((state) => state.users);
+
 	useEffect(() => {
 		dispatch(getUserProfileByUserName({ userName }));
-	}, []);
+	}, [userProfile]);
 	const location = useLocation();
-	const { userProfile, userTweets } = useSelector((state) => state.users);
 	const { currentUser } = useSelector((state) => state.currentUser);
 	return (
 		userProfile && (

@@ -1,6 +1,8 @@
 import axios from 'axios';
+import { statusEnum } from '../../utils/utils';
 import { BACKEND, TOKEN } from '../api';
 const { createSlice, nanoid, createAsyncThunk } = require('@reduxjs/toolkit');
+
 export const loadCurrentUser = createAsyncThunk(
 	'currentUser/loadCurrentUser',
 	async () => {
@@ -16,7 +18,9 @@ export const loadCurrentUser = createAsyncThunk(
 );
 const initialState = {
 	currentUser: null,
-	status: 'idle',
+	status: {
+		LOAD_CURRENT_USER: 0,
+	},
 };
 
 const currentUserSlice = createSlice({
@@ -32,11 +36,11 @@ const currentUserSlice = createSlice({
 	},
 	extraReducers: {
 		[loadCurrentUser.pending]: (state, action) => {
-			state.status = 'loading';
+			state.status.LOAD_CURRENT_USER = statusEnum['LOADING'];
 		},
 		[loadCurrentUser.fulfilled]: (state, action) => {
 			state.currentUser = action.payload.user;
-			state.status = 'success';
+			state.status.LOAD_CURRENT_USER = statusEnum['SUCCESS'];
 		},
 	},
 });
