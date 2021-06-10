@@ -10,6 +10,7 @@ import {
 	Login,
 	PrivateRoutes,
 	PublicRoutes,
+	SignUp,
 } from './features';
 import { useDispatch, useSelector } from 'react-redux';
 import { loadUsers } from './features/users/usersSlice';
@@ -68,6 +69,7 @@ function App() {
 				<PrivateRoutes path='/' exact element={<PostsContainer />} />
 
 				<PublicRoutes path='/login' element={<Login />} />
+				<PublicRoutes path='/signup' element={<SignUp />} />
 			</Routes>
 		</div>
 	);

@@ -23,7 +23,7 @@ export const PostForm = () => {
 	return (
 		<form onSubmit={(e) => onTweetPostClicked(e)}>
 			<div className='flex px-1 items-start mt-4 border-b'>
-				<div className='img-logo'>
+				<div className='img-logo uppercase'>
 					{currentUser?.firstName[0]}
 					{currentUser?.lastName[0]}
 				</div>

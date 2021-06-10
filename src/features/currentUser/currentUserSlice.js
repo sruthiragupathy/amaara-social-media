@@ -37,6 +37,26 @@ export const loginUser = createAsyncThunk(
 	},
 );
 
+export const signUpUser = createAsyncThunk(
+	'currentUser/signUpUser',
+	async ({ user }, { rejectWithValue }) => {
+		console.log('signupuser');
+		try {
+			const response = await axios({
+				method: 'POST',
+				url: `${BACKEND}/signup`,
+				data: {
+					user,
+				},
+			});
+
+			return response.data;
+		} catch (error) {
+			return rejectWithValue(error.response);
+		}
+	},
+);
+
 export const logoutUser = () => {};
 const initialState = {
 	currentUser: null,
@@ -80,6 +100,20 @@ const currentUserSlice = createSlice({
 			setLocalStorage(action.payload.user, action.payload.token);
 		},
 		[loginUser.rejected]: (state, action) => {
+			state.error = action.payload.data.error;
+			state.status.LOAD_CURRENT_USER = statusEnum['REJECTED'];
+		},
+		[signUpUser.pending]: (state, action) => {
+			state.status.error = '';
+			state.status.LOAD_CURRENT_USER = statusEnum['LOADING'];
+		},
+		[signUpUser.fulfilled]: (state, action) => {
+			state.currentUser = action.payload.user;
+			state.token = action.payload.token;
+			state.status.LOAD_CURRENT_USER = statusEnum['SUCCESS'];
+			setLocalStorage(action.payload.user, action.payload.token);
+		},
+		[signUpUser.rejected]: (state, action) => {
 			state.error = action.payload.data.error;
 			state.status.LOAD_CURRENT_USER = statusEnum['REJECTED'];
 		},
