@@ -36,6 +36,8 @@ export const loginUser = createAsyncThunk(
 		}
 	},
 );
+
+export const logoutUser = () => {};
 const initialState = {
 	currentUser: null,
 	status: {
@@ -54,6 +56,9 @@ const currentUserSlice = createSlice({
 		},
 		resetError(state) {
 			state.error = '';
+		},
+		resetToken(state) {
+			state.token = null;
 		},
 	},
 	extraReducers: {
@@ -81,6 +86,6 @@ const currentUserSlice = createSlice({
 	},
 });
 
-export const { setToken, resetError } = currentUserSlice.actions;
+export const { setToken, resetError, resetToken } = currentUserSlice.actions;
 
 export default currentUserSlice.reducer;

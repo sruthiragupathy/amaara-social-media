@@ -54,7 +54,7 @@ function App() {
 	}, [token]);
 
 	return (
-		<div className='flex'>
+		<div className=''>
 			<Routes>
 				<PrivateRoutes path='/tweet/:tweetId' element={<SingleTweet />} />
 				<PrivateRoutes path='/:userName' element={<UserProfile />} />

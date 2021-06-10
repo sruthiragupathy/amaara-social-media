@@ -42,7 +42,7 @@ export const SingleTweet = () => {
 		status.LOAD_CURRENT_TWEET === statusEnum['SUCCESS'] && (
 			<div className='flex w-full items-start justify-center container'>
 				<Nav />
-				<div className='text-left w-full md:w-4/6'>
+				<div className='text-left w-full md:w-4/6 md:ml-10'>
 					{(editable || deletable) && (
 						<div className='inset-0  bg-gray-800 opacity-50 fixed z-20'></div>
 					)}
@@ -59,12 +59,16 @@ export const SingleTweet = () => {
 							</NavLink>
 							<div className='flex justify-between w-full'>
 								<div>
-									<h3 className='text-gray-500 font-semibold text-lg capitalize md:hover:underline'>
-										{userId.firstName} {userId.lastName}
-									</h3>
-									<h3 className='text-gray-400 text-md md:hover:underline'>
-										{userId.userName}
-									</h3>
+									<NavLink to={`/${userId.userName}`}>
+										<h3 className='text-gray-500 font-semibold text-lg capitalize md:hover:underline'>
+											{userId.firstName} {userId.lastName}
+										</h3>
+									</NavLink>
+									<NavLink to={`/${userId.userName}`}>
+										<h3 className='text-gray-400 text-md md:hover:underline'>
+											{userId.userName}
+										</h3>
+									</NavLink>
 								</div>
 								{userId._id === currentUser._id && (
 									<div className='text-gray-400'>

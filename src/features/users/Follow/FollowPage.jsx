@@ -24,7 +24,7 @@ export const FollowPage = () => {
 		userProfile && (
 			<div className='flex w-full items-start justify-center container'>
 				<Nav />
-				<div className='text-left w-full md:w-4/6'>
+				<div className='text-left w-full md:w-4/6 mb-24 md:mb-4'>
 					<UserInfo user={userProfile} userTweets={userTweets} />
 					<FollowNav userName={userProfile.userName} />
 					<div>

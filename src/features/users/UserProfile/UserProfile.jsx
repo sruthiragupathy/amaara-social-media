@@ -19,13 +19,13 @@ export const UserProfile = () => {
 		if (token) {
 			dispatch(getUserProfileByUserName({ userName, token }));
 		}
-	}, [users]);
+	}, [users, userProfile]);
 	return (
 		<>
 			{userProfile && userTweets && (
 				<div className='flex w-full items-start justify-center container'>
 					<Nav />
-					<div className='text-left w-full md:w-4/6'>
+					<div className='text-left w-full md:w-4/6 mb-20 md:mb-4 md:ml-10'>
 						<UserHeader user={userProfile} userTweets={userTweets} />
 						{userTweets.map((tweet) => {
 							return (
