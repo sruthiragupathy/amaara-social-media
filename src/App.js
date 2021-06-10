@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import './App.css';
-import { Routes, Route, useNavigate } from 'react-router-dom';
+import { Routes } from 'react-router-dom';
 import {
 	ConnectToPeopleContainer,
 	FollowPage,
@@ -18,14 +18,9 @@ import {
 	loadCurrentUser,
 	setToken,
 } from './features/currentUser/currentUserSlice';
-import { Nav } from './Nav/Nav';
 
 function App() {
-	const { currentUser, token, status } = useSelector(
-		(state) => state.currentUser,
-	);
-
-	const navigate = useNavigate();
+	const { token } = useSelector((state) => state.currentUser);
 	const dispatch = useDispatch();
 
 	useEffect(() => {

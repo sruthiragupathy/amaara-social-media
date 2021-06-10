@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
+import { signupFormValidation } from '../../utils/formValidation';
 import { resetError, signUpUser } from './currentUserSlice';
 
 export const SignUp = () => {
@@ -21,11 +22,13 @@ export const SignUp = () => {
 	});
 
 	const dispatch = useDispatch();
+	const { error } = useSelector((state) => state.currentUser);
 
 	const onSignUpClicked = async (e) => {
 		e.preventDefault();
 		dispatch(resetError());
-		await dispatch(signUpUser({ user }));
+		if (signupFormValidation(user, setFormError))
+			await dispatch(signUpUser({ user }));
 	};
 
 	const onUserChanged = (e) => {
@@ -33,17 +36,19 @@ export const SignUp = () => {
 	};
 	return (
 		<div className='flex justify-between min-h-screen'>
-			<div className='hidden md:block w-1/3 bg-purple-100 h-screen flex flex-col items-start justify-center py-10 px-6 text-gray-600'>
+			<div className='hidden md:block w-1/3 bg-purple-100 min-h-screen flex flex-col items-start justify-center py-10 px-6 text-gray-600'>
 				<div className='font-bold mb-4 text-lg italic'>Amaara Spaces</div>
 				<div className='font-bold text-xl'>
 					Discover your passion around fashion
 				</div>
 			</div>
-			<div className='flex flex-col items-start mx-4 justify-center w-full md:w-1/2 text-gray-500'>
-				<h2 className='font-semibold text-2xl mb-4 '>
+			<div className='flex flex-col items-start mx-4 justify-center w-full md:w-1/2 text-gray-500 my-2'>
+				<h2 className='font-semibold text-2xl mb-2 '>
 					Sign Up into Amaara Spaces
 				</h2>
-				<form className='flex flex-col w-full items-start '>
+				<form className='flex flex-col w-full items-start'>
+					<div className='mb-2 text-red-600 font-semibold text-xl'>{error}</div>
+
 					<div className='mb-4 md:w-9/12 w-full'>
 						<label className='mb-2 font-semibold block'>FirstName</label>
 						<input
@@ -139,12 +144,11 @@ export const SignUp = () => {
 					<div className='font-medium text-md'>
 						Already a member?{' '}
 						<NavLink
-							to='/signup'
+							to='/login'
 							className='text-purple-700 underline font-bold'>
 							Login
 						</NavLink>
 					</div>
-					{/* <div className='mt-2 text-red-600 font-semibold text-xl'>{error}</div> */}
 				</form>
 			</div>
 		</div>

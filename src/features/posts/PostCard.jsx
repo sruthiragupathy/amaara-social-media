@@ -1,11 +1,9 @@
-import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { transformISOString } from '../../utils/utils';
 import { ReactionButtons } from './ReactionButtons';
 
 export const PostCard = ({ tweetObj }) => {
 	const { tweet, userId, createdAt } = tweetObj;
-	const { currentUser } = useSelector((state) => state.currentUser);
 
 	return (
 		<div className='flex items-start justify-start mb-4 py-3 px-1 md:px-2 rounded-lg bg-gray-50'>

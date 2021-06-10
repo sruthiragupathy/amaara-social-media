@@ -1,7 +1,7 @@
-import { BACKEND, TOKEN } from '../api';
+import { BACKEND } from '../api';
 import axios from 'axios';
 import { statusEnum } from '../../utils/utils';
-const { createSlice, nanoid, createAsyncThunk } = require('@reduxjs/toolkit');
+const { createSlice, createAsyncThunk } = require('@reduxjs/toolkit');
 
 export const loadUsers = createAsyncThunk(
 	'users/loadUsers',
