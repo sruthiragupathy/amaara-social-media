@@ -10,10 +10,11 @@ export const FollowPage = () => {
 	const { userName } = useParams();
 	const dispatch = useDispatch();
 	const { userProfile, userTweets } = useSelector((state) => state.users);
+	const { token } = useSelector((state) => state.currentUser);
 
 	useEffect(() => {
-		dispatch(getUserProfileByUserName({ userName }));
-	}, [userProfile]);
+		dispatch(getUserProfileByUserName({ userName, token }));
+	}, []);
 	const location = useLocation();
 	const { currentUser } = useSelector((state) => state.currentUser);
 	return (
@@ -26,6 +27,7 @@ export const FollowPage = () => {
 						? userProfile?.followingList?.map((followingUser) => {
 								return (
 									<UserSuggestionCard
+										key={followingUser._id}
 										userProfile={followingUser.user}
 										currentUser={currentUser}
 									/>
@@ -34,7 +36,8 @@ export const FollowPage = () => {
 						: userProfile.followersList.map((follower) => {
 								return (
 									<UserSuggestionCard
-										userProfile={userProfile}
+										key={follower._id}
+										userProfile={follower.user}
 										currentUser={currentUser}
 									/>
 								);

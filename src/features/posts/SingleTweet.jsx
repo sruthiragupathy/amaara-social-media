@@ -24,11 +24,11 @@ export const SingleTweet = () => {
 	const { currentTweet, status, editable, deletable } = useSelector(
 		(state) => state.posts,
 	);
-	const { currentUser } = useSelector((state) => state.currentUser);
+	const { currentUser, token } = useSelector((state) => state.currentUser);
 	const { userId, tweet, createdAt } = currentTweet;
 
 	useEffect(() => {
-		dispatch(loadCurrentTweet({ tweetId }));
+		dispatch(loadCurrentTweet({ tweetId, token }));
 	}, []);
 
 	const getLikesCount = () => {

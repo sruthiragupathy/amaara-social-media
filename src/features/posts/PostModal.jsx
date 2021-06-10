@@ -1,14 +1,15 @@
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
 import { updateTweet, cancelClicked } from './postsSlice';
 
 export const PostModal = ({ tweet }) => {
 	const [editTweet, setEditTweet] = useState(tweet);
 	const { tweetId } = useParams();
+	const { token } = useSelector((state) => state.currentUser);
 	const dispatch = useDispatch();
 	const onUpdateClicked = () => {
-		dispatch(updateTweet({ tweetId, editTweet }));
+		dispatch(updateTweet({ tweetId, editTweet, token }));
 	};
 	const onCancelClicked = () => {
 		dispatch(cancelClicked());

@@ -6,9 +6,10 @@ export const DeleteModal = ({ tweetId }) => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const { status } = useSelector((state) => state.posts);
+	const { token } = useSelector((state) => state.currentUser);
 
 	const onDeleteClicked = async () => {
-		await dispatch(deleteTweet({ tweetId }));
+		await dispatch(deleteTweet({ tweetId, token }));
 
 		navigate('/', { replace: true });
 	};

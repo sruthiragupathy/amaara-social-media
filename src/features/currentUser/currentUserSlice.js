@@ -5,12 +5,27 @@ const { createSlice, nanoid, createAsyncThunk } = require('@reduxjs/toolkit');
 
 export const loadCurrentUser = createAsyncThunk(
 	'currentUser/loadCurrentUser',
-	async () => {
+	async ({ userName, token }) => {
 		const response = await axios({
 			method: 'GET',
-			url: `${BACKEND}/user/tanaypratap_`,
+			url: `${BACKEND}/user/${userName}`,
 			headers: {
-				authorization: TOKEN,
+				authorization: token,
+			},
+		});
+		return response.data;
+	},
+);
+
+export const loginUser = createAsyncThunk(
+	'currentUser/loginUser',
+	async ({ email, password }) => {
+		const response = await axios({
+			method: 'POST',
+			url: `${BACKEND}/login`,
+			data: {
+				email,
+				password,
 			},
 		});
 		return response.data;
@@ -21,17 +36,15 @@ const initialState = {
 	status: {
 		LOAD_CURRENT_USER: 0,
 	},
+	token: null,
 };
 
 const currentUserSlice = createSlice({
 	name: 'currentUser',
 	initialState: initialState,
 	reducers: {
-		updateCurrentUserFollowing(state, { payload }) {
-			state.following.push({
-				_id: nanoid(),
-				userId: payload.followedUserId,
-			});
+		setToken(state, { payload }) {
+			state.token = payload.token;
 		},
 	},
 	extraReducers: {
@@ -42,9 +55,18 @@ const currentUserSlice = createSlice({
 			state.currentUser = action.payload.user;
 			state.status.LOAD_CURRENT_USER = statusEnum['SUCCESS'];
 		},
+		[loginUser.pending]: (state, action) => {
+			state.status.LOAD_CURRENT_USER = statusEnum['LOADING'];
+		},
+		[loginUser.fulfilled]: (state, action) => {
+			state.currentUser = action.payload.user;
+			state.token = action.payload.token;
+			state.status.LOAD_CURRENT_USER = statusEnum['SUCCESS'];
+		},
 	},
 });
 
-export const { updateCurrentUserFollowing } = currentUserSlice.actions;
+export const { updateCurrentUserFollowing, setToken } =
+	currentUserSlice.actions;
 
 export default currentUserSlice.reducer;

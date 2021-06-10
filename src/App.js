@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import './App.css';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 import {
 	ConnectToPeopleContainer,
 	FollowPage,
@@ -10,27 +10,49 @@ import {
 } from './features';
 import { useDispatch, useSelector } from 'react-redux';
 import { loadUsers } from './features/users/usersSlice';
-import { loadCurrentUser } from './features/currentUser/currentUserSlice';
+import {
+	loadCurrentUser,
+	setToken,
+} from './features/currentUser/currentUserSlice';
 import { statusEnum } from './utils/utils';
 import { Login } from './features/currentUser/Login';
 
 function App() {
 	const users = useSelector((state) => state.users);
-	const currentUser = useSelector((state) => state.currentUser);
+	const { currentUser, token, status } = useSelector(
+		(state) => state.currentUser,
+	);
 
+	const navigate = useNavigate();
 	const dispatch = useDispatch();
 
 	useEffect(() => {
 		(async function () {
-			if (users.status.LOAD_USERS === 0) await dispatch(loadUsers());
+			const loginCredentials = JSON.parse(
+				localStorage?.getItem('logincredentials'),
+			);
+			loginCredentials?.token &&
+				loginCredentials?.userName &&
+				(await dispatch(
+					loadCurrentUser({
+						userName: loginCredentials.userName,
+						token: loginCredentials.token,
+					}),
+				));
+			await dispatch(setToken({ token: loginCredentials.token }));
+			if (status.LOAD_CURRENT_USER === statusEnum['SUCCESS']) {
+				navigate('/home');
+			}
 		})();
-		(async function () {
-			if (currentUser.status.LOAD_CURRENT_USER === 0)
-				await dispatch(loadCurrentUser());
-		})();
-	}, [dispatch, users.status, currentUser.status]);
-	console.log(currentUser.status.LOAD_CURRENT_USER);
-	return currentUser ? (
+	}, []);
+	useEffect(() => {
+		if (token) {
+			(async function () {
+				await dispatch(loadUsers({ token }));
+			})();
+		}
+	}, [token]);
+	return (
 		<>
 			<div className='App text-gray-600 box-border md:w-1/2 md:m-auto my-2 mx-2'>
 				<Routes>
@@ -39,13 +61,13 @@ function App() {
 					<Route path='/:userName' element={<UserProfile />}></Route>
 					<Route path='/:userName/following' element={<FollowPage />}></Route>
 					<Route path='/:userName/followers' element={<FollowPage />}></Route>
-					<Route path='/' element={<PostsContainer />}></Route>
+					<Route path='/home' element={<PostsContainer />}></Route>
 				</Routes>{' '}
 			</div>
-			<Route path='/login' element={<Login />}></Route>
+			<Routes>
+				<Route path='/' element={<Login />}></Route>
+			</Routes>
 		</>
-	) : (
-		<p>Loading...</p>
 	);
 }
 

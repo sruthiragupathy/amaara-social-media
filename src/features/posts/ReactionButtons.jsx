@@ -10,7 +10,7 @@ const reactionEmoji = {
 };
 
 export const ReactionButtons = ({ tweetObj }) => {
-	const { currentUser } = useSelector((state) => state.currentUser);
+	const { currentUser, token } = useSelector((state) => state.currentUser);
 	const currentUserId = currentUser._id;
 
 	const dispatch = useDispatch();
@@ -21,6 +21,7 @@ export const ReactionButtons = ({ tweetObj }) => {
 				tweetId: tweetObj._id,
 				reactionName: e.target.name,
 				reactionCount: tweetObj[e.target.name].reactedUsers.length,
+				token,
 			}),
 		);
 	};
@@ -35,9 +36,10 @@ export const ReactionButtons = ({ tweetObj }) => {
 	};
 	return (
 		<div className='mt-4'>
-			{Object.keys(reactionEmoji).map((emojiname) => {
+			{Object.keys(reactionEmoji).map((emojiname, index) => {
 				return (
 					<button
+						key={index}
 						className={`mr-3 p-1 ${styleReactionButtons(emojiname)}`}
 						name={emojiname}
 						onClick={(e) => onReactEmojiClicked(e)}>

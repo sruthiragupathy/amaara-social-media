@@ -7,19 +7,24 @@ import { loadPosts } from './postsSlice';
 
 export const PostsList = () => {
 	const { tweets, status } = useSelector((state) => state.posts);
+	const { token } = useSelector((state) => state.currentUser);
 	const dispatch = useDispatch();
+
 	useEffect(() => {
-		if (status.LOAD_POSTS === statusEnum['IDLE']) dispatch(loadPosts());
+		if (status.LOAD_POSTS === statusEnum['IDLE'])
+			dispatch(loadPosts({ token }));
 	}, [dispatch, status]);
 	return (
-		<div className=''>
-			{tweets.map((tweet) => {
-				return (
-					<NavLink to={`/tweet/${tweet._id}`} key={tweet._id}>
-						<PostCard tweetObj={tweet} />
-					</NavLink>
-				);
-			})}
-		</div>
+		tweets.length && (
+			<div className=''>
+				{tweets.map((tweet) => {
+					return (
+						<NavLink to={`/tweet/${tweet._id}`} key={tweet._id}>
+							<PostCard tweetObj={tweet} />
+						</NavLink>
+					);
+				})}
+			</div>
+		)
 	);
 };

@@ -3,16 +3,19 @@ import { statusEnum } from '../../utils/utils';
 import { BACKEND, TOKEN } from '../api';
 const { createSlice, createAsyncThunk } = require('@reduxjs/toolkit');
 
-export const loadPosts = createAsyncThunk('posts/loadPosts', async () => {
-	const response = await axios({
-		method: 'GET',
-		url: `${BACKEND}/tweets`,
-		headers: {
-			authorization: TOKEN,
-		},
-	});
-	return response.data;
-});
+export const loadPosts = createAsyncThunk(
+	'posts/loadPosts',
+	async ({ token }) => {
+		const response = await axios({
+			method: 'GET',
+			url: `${BACKEND}/tweets`,
+			headers: {
+				authorization: token,
+			},
+		});
+		return response.data;
+	},
+);
 
 export const reactToPosts = createAsyncThunk(
 	'posts/reactToPosts',
@@ -21,7 +24,7 @@ export const reactToPosts = createAsyncThunk(
 			method: 'POST',
 			url: `${BACKEND}/tweet/reactions/${payload.tweetId}`,
 			headers: {
-				authorization: TOKEN,
+				authorization: payload.token,
 			},
 			data: {
 				reactionName: payload.reactionName,
@@ -34,12 +37,12 @@ export const reactToPosts = createAsyncThunk(
 
 export const postTweet = createAsyncThunk(
 	'posts/postTweet',
-	async ({ tweet }) => {
+	async ({ tweet, token }) => {
 		const response = await axios({
 			method: 'POST',
 			url: `${BACKEND}/tweet`,
 			headers: {
-				authorization: TOKEN,
+				authorization: token,
 			},
 			data: {
 				tweet,
@@ -51,12 +54,12 @@ export const postTweet = createAsyncThunk(
 
 export const loadCurrentTweet = createAsyncThunk(
 	'posts/loadCurrentTweet',
-	async (payload) => {
+	async ({ tweetId, token }) => {
 		const response = await axios({
 			method: 'GET',
-			url: `${BACKEND}/tweet/${payload.tweetId}`,
+			url: `${BACKEND}/tweet/${tweetId}`,
 			headers: {
-				authorization: TOKEN,
+				authorization: token,
 			},
 		});
 		return response.data;
@@ -70,7 +73,7 @@ export const updateTweet = createAsyncThunk(
 			method: 'POST',
 			url: `${BACKEND}/tweet/${payload.tweetId}`,
 			headers: {
-				authorization: TOKEN,
+				authorization: payload.token,
 			},
 			data: {
 				editedTweet: payload.editTweet,
@@ -82,12 +85,12 @@ export const updateTweet = createAsyncThunk(
 
 export const deleteTweet = createAsyncThunk(
 	'posts/deleteTweet',
-	async (payload) => {
+	async ({ tweetId, token }) => {
 		const response = await axios({
 			method: 'DELETE',
-			url: `${BACKEND}/tweet/${payload.tweetId}`,
+			url: `${BACKEND}/tweet/${tweetId}`,
 			headers: {
-				authorization: TOKEN,
+				authorization: token,
 			},
 		});
 		return response.data;

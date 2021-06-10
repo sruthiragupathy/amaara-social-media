@@ -21,7 +21,9 @@ export const UserSuggestionCard = ({ userProfile, currentUser }) => {
 							</span>{' '}
 							<span className='text-gray-400 text-sm'>@{userName}</span>
 						</div>
-						<FollowButton currentUser={currentUser} user={userProfile} />
+						{currentUser._id !== userProfile._id && (
+							<FollowButton currentUser={currentUser} user={userProfile} />
+						)}
 					</div>
 					<div>
 						A technology enthusiast👩‍💻 | Tweet about my learnings, tech and

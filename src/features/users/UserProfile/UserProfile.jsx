@@ -9,10 +9,14 @@ import { UserHeader } from './UserHeader';
 export const UserProfile = () => {
 	const { userName } = useParams();
 	const dispatch = useDispatch();
-	const { userProfile, userTweets } = useSelector((state) => state.users);
+	const { users, userProfile, userTweets } = useSelector(
+		(state) => state.users,
+	);
+	const { token } = useSelector((state) => state.currentUser);
+
 	useEffect(() => {
-		dispatch(getUserProfileByUserName({ userName }));
-	}, [userProfile]);
+		dispatch(getUserProfileByUserName({ userName, token }));
+	}, [users]);
 	return (
 		<>
 			{userProfile && userTweets && (
