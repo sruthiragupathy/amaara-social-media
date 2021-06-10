@@ -1,7 +1,7 @@
 import axios from 'axios';
-import { statusEnum } from '../../utils/utils';
-import { BACKEND, TOKEN } from '../api';
-const { createSlice, nanoid, createAsyncThunk } = require('@reduxjs/toolkit');
+import { setLocalStorage, statusEnum } from '../../utils';
+import { BACKEND } from '../api';
+const { createSlice, createAsyncThunk } = require('@reduxjs/toolkit');
 
 export const loadCurrentUser = createAsyncThunk(
 	'currentUser/loadCurrentUser',
@@ -19,16 +19,21 @@ export const loadCurrentUser = createAsyncThunk(
 
 export const loginUser = createAsyncThunk(
 	'currentUser/loginUser',
-	async ({ email, password }) => {
-		const response = await axios({
-			method: 'POST',
-			url: `${BACKEND}/login`,
-			data: {
-				email,
-				password,
-			},
-		});
-		return response.data;
+	async ({ email, password }, { rejectWithValue }) => {
+		try {
+			const response = await axios({
+				method: 'POST',
+				url: `${BACKEND}/login`,
+				data: {
+					email,
+					password,
+				},
+			});
+
+			return response.data;
+		} catch (error) {
+			return rejectWithValue(error.response);
+		}
 	},
 );
 const initialState = {
@@ -37,6 +42,7 @@ const initialState = {
 		LOAD_CURRENT_USER: 0,
 	},
 	token: null,
+	error: null,
 };
 
 const currentUserSlice = createSlice({
@@ -45,6 +51,9 @@ const currentUserSlice = createSlice({
 	reducers: {
 		setToken(state, { payload }) {
 			state.token = payload.token;
+		},
+		resetError(state) {
+			state.error = '';
 		},
 	},
 	extraReducers: {
@@ -56,17 +65,22 @@ const currentUserSlice = createSlice({
 			state.status.LOAD_CURRENT_USER = statusEnum['SUCCESS'];
 		},
 		[loginUser.pending]: (state, action) => {
+			state.status.error = '';
 			state.status.LOAD_CURRENT_USER = statusEnum['LOADING'];
 		},
 		[loginUser.fulfilled]: (state, action) => {
 			state.currentUser = action.payload.user;
 			state.token = action.payload.token;
 			state.status.LOAD_CURRENT_USER = statusEnum['SUCCESS'];
+			setLocalStorage(action.payload.user, action.payload.token);
+		},
+		[loginUser.rejected]: (state, action) => {
+			state.error = action.payload.data.error;
+			state.status.LOAD_CURRENT_USER = statusEnum['REJECTED'];
 		},
 	},
 });
 
-export const { updateCurrentUserFollowing, setToken } =
-	currentUserSlice.actions;
+export const { setToken, resetError } = currentUserSlice.actions;
 
 export default currentUserSlice.reducer;

@@ -13,9 +13,9 @@ export const PostsList = () => {
 	useEffect(() => {
 		if (status.LOAD_POSTS === statusEnum['IDLE'])
 			dispatch(loadPosts({ token }));
-	}, [dispatch, status]);
+	}, []);
 	return (
-		tweets.length && (
+		tweets.length !== 0 && (
 			<div className=''>
 				{tweets.map((tweet) => {
 					return (

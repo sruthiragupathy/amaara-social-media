@@ -71,7 +71,7 @@ const usersSlice = createSlice({
 			state.status.LOAD_USERS = statusEnum['SUCCESS'];
 		},
 		[getUserProfileByUserName.pending]: (state, action) => {
-			state.userProfile = null;
+			// state.userProfile = null;
 			state.status.GET_USER_DETAILS = statusEnum['LOADING'];
 		},
 		[getUserProfileByUserName.fulfilled]: (state, action) => {
