@@ -18,6 +18,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import { PostModal } from './PostModal';
 import { DeleteModal } from './DeleteModal';
 import { Nav } from '../../Nav/Nav';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 export const SingleTweet = () => {
 	const { tweetId } = useParams();
@@ -39,9 +40,9 @@ export const SingleTweet = () => {
 	};
 
 	return (
-		status.LOAD_CURRENT_TWEET === statusEnum['SUCCESS'] && (
-			<div className='flex w-full items-start justify-center container'>
-				<Nav />
+		<div className='flex w-full items-start justify-center container'>
+			<Nav />
+			{status.LOAD_CURRENT_TWEET === statusEnum['SUCCESS'] ? (
 				<div className='text-left w-full md:w-4/6 md:ml-10'>
 					{(editable || deletable) && (
 						<div className='inset-0  bg-gray-800 opacity-50 fixed z-20'></div>
@@ -105,8 +106,11 @@ export const SingleTweet = () => {
 					{editable === tweetId && <PostModal tweet={tweet} />}
 					{deletable === tweetId && <DeleteModal tweetId={tweetId} />}
 				</div>
-				{/* //{' '} */}
-			</div>
-		)
+			) : (
+				<div className='text-left w-full md:w-4/6 md:ml-10 min-h-screen flex items-center justify-center'>
+					<CircularProgress />
+				</div>
+			)}
+		</div>
 	);
 };

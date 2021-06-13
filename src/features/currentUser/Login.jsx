@@ -21,9 +21,11 @@ export const Login = () => {
 	};
 
 	const onLoginClicked = async (e) => {
+		console.log('hello');
 		e.preventDefault();
 		dispatch(resetError());
 		if (formValidation(user.email, user.password, formError, setFormError)) {
+			console.log('hi');
 			await dispatch(loginUser({ email: user.email, password: user.password }));
 		}
 	};

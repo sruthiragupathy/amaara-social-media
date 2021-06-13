@@ -16,7 +16,7 @@ export const formValidation = (email, password, error, setError) => {
 };
 
 const isValidEmail = (email) => {
-	const emailRegex = new RegExp('[a-z][0-9]*@gmail.com');
+	const emailRegex = new RegExp('[a-z][0-9]*@[a-z]+[0-9]*.com');
 	return emailRegex.test(email);
 };
 
