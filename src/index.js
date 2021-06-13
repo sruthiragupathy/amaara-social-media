@@ -6,11 +6,13 @@ import { store } from './app/store';
 import { Provider } from 'react-redux';
 import { HashRouter as Router } from 'react-router-dom';
 import * as serviceWorker from './serviceWorker';
+import ScrollToTop from './features/ScrollToTop';
 
 ReactDOM.render(
 	<React.StrictMode>
 		<Provider store={store}>
 			<Router>
+				<ScrollToTop />
 				<App />
 			</Router>
 		</Provider>

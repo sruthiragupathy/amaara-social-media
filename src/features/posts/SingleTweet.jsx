@@ -96,7 +96,7 @@ export const SingleTweet = () => {
 					<div>
 						<div className='border-b py-3 capitalize'>
 							<span className='font-semibold'>{getLikesCount()} </span>
-							<span className='text-gray-400'>Likes</span>
+							<span className='text-gray-400'>Reactions</span>
 						</div>
 					</div>
 					<ReactionButtons
