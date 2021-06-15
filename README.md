@@ -7,6 +7,10 @@ Amaara Spaces is a web application that enables users to socialize and share the
  - [Frontend Code](https://github.com/sruthiragupathy/amaara-social-media)
  - [Backend Code](https://github.com/sruthiragupathy/amaara-social-media-backend/tree/development)
 
+## Test Credentials
+ - email: test12@gmail.com
+ - password: test123
+
 ## Tech Stack
 
 ### Frontend
