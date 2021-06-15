@@ -25,11 +25,7 @@ export const UserSuggestionCard = ({ userProfile, currentUser }) => {
 							<FollowButton currentUser={currentUser} user={userProfile} />
 						)}
 					</div>
-					<div>
-						A technology enthusiast👩‍💻 | Tweet about my learnings, tech and
-						#151daysofcode | Learning full stack web development | Neogrammer
-						@neogcamp
-					</div>
+					<div>{bio}</div>
 				</div>
 			</div>
 		</NavLink>

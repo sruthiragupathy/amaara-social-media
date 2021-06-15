@@ -29,7 +29,6 @@ export const loginUser = createAsyncThunk(
 					password,
 				},
 			});
-			console.log({ response });
 			return response.data;
 		} catch (error) {
 			const value = error.response.data.error;
@@ -66,7 +65,25 @@ const initialState = {
 	},
 	token: null,
 	error: null,
+	editProfile: false,
 };
+
+export const updateProfile = createAsyncThunk(
+	'posts/updateProfile',
+	async ({ token, bio }) => {
+		const response = await axios({
+			method: 'POST',
+			url: `${BACKEND}/user`,
+			headers: {
+				authorization: token,
+			},
+			data: {
+				bio,
+			},
+		});
+		return response.data;
+	},
+);
 
 const currentUserSlice = createSlice({
 	name: 'currentUser',
@@ -80,6 +97,12 @@ const currentUserSlice = createSlice({
 		},
 		resetToken(state) {
 			state.token = null;
+		},
+		toggleEditProfile(state) {
+			state.editProfile = !state.editProfile;
+		},
+		cancelEditClicked(state) {
+			state.editProfile = false;
 		},
 	},
 	extraReducers: {
@@ -115,13 +138,26 @@ const currentUserSlice = createSlice({
 			setLocalStorage(action.payload.user, action.payload.token);
 		},
 		[signUpUser.rejected]: (state, action) => {
-			console.log({ action });
 			state.error = action.payload;
 			state.status.LOAD_CURRENT_USER = statusEnum['REJECTED'];
+		},
+		[updateProfile.pending]: (state) => {
+			state.status.LOAD_CURRENT_USER = statusEnum['LOADING'];
+		},
+		[updateProfile.fulfilled]: (state, action) => {
+			state.currentUser.bio = action.payload.user.bio;
+			state.editProfile = false;
+			state.status.LOAD_CURRENT_USER = statusEnum['SUCCESS'];
 		},
 	},
 });
 
-export const { setToken, resetError, resetToken } = currentUserSlice.actions;
+export const {
+	setToken,
+	resetError,
+	resetToken,
+	toggleEditProfile,
+	cancelEditClicked,
+} = currentUserSlice.actions;
 
 export default currentUserSlice.reducer;

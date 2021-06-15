@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation, useParams } from 'react-router';
+import { useParams } from 'react-router';
 import { NavLink } from 'react-router-dom';
 import { Nav } from '../../../Nav/Nav';
 import { PostCard } from '../../posts/PostCard';
@@ -15,14 +15,12 @@ export const UserProfile = () => {
 		(state) => state.users,
 	);
 	const { token } = useSelector((state) => state.currentUser);
-	const location = useLocation();
-	console.log({ location });
 
 	useEffect(() => {
 		if (token) {
 			dispatch(getUserProfileByUserName({ userName, token }));
 		}
-	}, [users]);
+	}, [users, userProfile]);
 	return (
 		<>
 			<div className='flex w-full items-start justify-center container'>

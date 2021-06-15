@@ -1,15 +1,31 @@
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { FollowButton } from '../FollowButton';
 import EventNoteIcon from '@material-ui/icons/EventNote';
 import { processJoinedDate } from '../../../utils/utils';
 import { NavLink } from 'react-router-dom';
 import { UserInfo } from './UserInfo';
 
+import { EditModal } from '../EditModal';
+import {
+	cancelEditClicked,
+	toggleEditProfile,
+} from '../../currentUser/currentUserSlice';
+
 export const UserHeader = ({ user, userTweets }) => {
-	const { currentUser } = useSelector((state) => state.currentUser);
+	const { currentUser, editProfile } = useSelector(
+		(state) => state.currentUser,
+	);
+	const dispatch = useDispatch();
+
+	const onEditProfileClicked = () => {
+		dispatch(toggleEditProfile());
+	};
 	return (
 		<>
 			<UserInfo user={user} userTweets={userTweets} />
+			{editProfile && (
+				<div className='inset-0  bg-gray-800 opacity-50 fixed z-20'></div>
+			)}
 			<div className='border-b'>
 				<div className='my-4 flex justify-between'>
 					<div className='img-logo uppercase p-10 text-2xl'>
@@ -21,7 +37,11 @@ export const UserHeader = ({ user, userTweets }) => {
 							<FollowButton currentUser={currentUser} user={user} />
 						</div>
 					) : (
-						<button className='secondary-btn self-center'>Edit Profile</button>
+						<button
+							className='secondary-btn self-center'
+							onClick={onEditProfileClicked}>
+							Edit Profile
+						</button>
 					)}
 				</div>
 				<div className='text-left'>
@@ -29,11 +49,7 @@ export const UserHeader = ({ user, userTweets }) => {
 						{user.firstName} {user.lastName}
 					</h2>
 					<div className='text-gray-400 block lowercase'>@{user.userName}</div>
-					<div className='mt-4'>
-						A technology enthusiast👩‍💻 | Tweet about my learnings, tech and
-						#151daysofcode | Learning full stack web development | Neogrammer
-						@neogcamp
-					</div>
+					{user.bio && <div className='mt-4'>{user.bio}</div>}
 					<div className='text-gray-400 mt-4'>
 						<div>
 							<EventNoteIcon color='inherit' />{' '}
@@ -60,6 +76,7 @@ export const UserHeader = ({ user, userTweets }) => {
 					</div>
 				</div>
 			</div>
+			{editProfile && <EditModal />}
 		</>
 	);
 };

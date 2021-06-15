@@ -55,9 +55,11 @@ const initialState = {
 	status: {
 		LOAD_USERS: 0,
 		GET_USER_DETAILS: 0,
+		EDIT_PROFILE: 0,
 	},
 	error: null,
 };
+
 const usersSlice = createSlice({
 	name: 'users',
 	initialState,
@@ -70,8 +72,7 @@ const usersSlice = createSlice({
 			state.users = action.payload.users;
 			state.status.LOAD_USERS = statusEnum['SUCCESS'];
 		},
-		[getUserProfileByUserName.pending]: (state, action) => {
-			// state.userProfile = null;
+		[getUserProfileByUserName.pending]: (state) => {
 			state.status.GET_USER_DETAILS = statusEnum['LOADING'];
 		},
 		[getUserProfileByUserName.fulfilled]: (state, action) => {
@@ -79,7 +80,7 @@ const usersSlice = createSlice({
 			state.userTweets = action.payload.tweets;
 			state.status.GET_USER_DETAILS = statusEnum['SUCCESS'];
 		},
-		[followButtonClicked.pending]: (state, action) => {
+		[followButtonClicked.pending]: (state) => {
 			state.status.LOAD_USERS = statusEnum['LOADING'];
 		},
 		[followButtonClicked.fulfilled]: (state, action) => {
@@ -88,7 +89,5 @@ const usersSlice = createSlice({
 		},
 	},
 });
-
-export const { followClicked } = usersSlice.actions;
 
 export default usersSlice.reducer;
