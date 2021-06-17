@@ -1,30 +1,20 @@
 import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
-import { statusEnum } from '../../utils/utils';
 import { PostCard } from './PostCard';
-import { loadPosts } from './postsSlice';
 
 export const PostsList = () => {
-	const { tweets, status } = useSelector((state) => state.posts);
-	const { token } = useSelector((state) => state.currentUser);
-	const dispatch = useDispatch();
+	const { tweets } = useSelector((state) => state.posts);
 
-	useEffect(() => {
-		if (status.LOAD_POSTS === statusEnum['IDLE'])
-			dispatch(loadPosts({ token }));
-	}, []);
 	return (
-		tweets.length !== 0 && (
-			<div className=''>
-				{tweets.map((tweet) => {
-					return (
-						<NavLink to={`/tweet/${tweet._id}`} key={tweet._id}>
-							<PostCard tweetObj={tweet} />
-						</NavLink>
-					);
-				})}
-			</div>
-		)
+		<div className=''>
+			{tweets.map((tweet) => {
+				return (
+					<NavLink to={`/tweet/${tweet._id}`} key={tweet._id}>
+						<PostCard tweetObj={tweet} />
+					</NavLink>
+				);
+			})}
+		</div>
 	);
 };

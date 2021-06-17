@@ -1,6 +1,7 @@
 import axios from 'axios';
+import { useSelector } from 'react-redux';
 import { statusEnum } from '../../utils/utils';
-import { BACKEND, TOKEN } from '../api';
+import { BACKEND } from '../api';
 const { createSlice, createAsyncThunk } = require('@reduxjs/toolkit');
 
 export const loadPosts = createAsyncThunk(
@@ -98,7 +99,7 @@ export const deleteTweet = createAsyncThunk(
 );
 
 const initialState = {
-	tweets: [],
+	tweets: null,
 	currentTweet: {},
 	status: {
 		LOAD_POSTS: 0,
@@ -200,3 +201,6 @@ export const {
 } = postsSlice.actions;
 
 export default postsSlice.reducer;
+export const useTweets = () => {
+	return useSelector((state) => state.posts);
+};
