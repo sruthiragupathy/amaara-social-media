@@ -1,58 +1,73 @@
-import React from 'react';
-import logo from './logo.svg';
-import { Counter } from './features/counter/Counter';
+import React, { useEffect } from 'react';
 import './App.css';
+import { Routes } from 'react-router-dom';
+import {
+	ConnectToPeopleContainer,
+	FollowPage,
+	PostsContainer,
+	SingleTweet,
+	UserProfile,
+	Login,
+	PrivateRoutes,
+	PublicRoutes,
+	SignUp,
+} from './features';
+import { useDispatch, useSelector } from 'react-redux';
+import { loadUsers } from './features/users/usersSlice';
+import {
+	loadCurrentUser,
+	setToken,
+} from './features/currentUser/currentUserSlice';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <Counter />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <span>
-          <span>Learn </span>
-          <a
-            className="App-link"
-            href="https://reactjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux-toolkit.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux Toolkit
-          </a>
-          ,<span> and </span>
-          <a
-            className="App-link"
-            href="https://react-redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React Redux
-          </a>
-        </span>
-      </header>
-    </div>
-  );
+	const { token } = useSelector((state) => state.currentUser);
+	const dispatch = useDispatch();
+
+	useEffect(() => {
+		(async function () {
+			const loginCredentials = JSON.parse(
+				localStorage?.getItem('logincredentials'),
+			);
+			loginCredentials?.token &&
+				loginCredentials?.userName &&
+				(await dispatch(
+					loadCurrentUser({
+						userName: loginCredentials.userName,
+						token: loginCredentials.token,
+					}),
+				));
+			loginCredentials?.token &&
+				(await dispatch(setToken({ token: loginCredentials.token })));
+		})();
+	}, []);
+
+	useEffect(() => {
+		if (token) {
+			(async function () {
+				await dispatch(loadUsers({ token }));
+			})();
+		}
+	}, [token]);
+
+	return (
+		<div className=''>
+			<Routes>
+				<PrivateRoutes path='/tweet/:tweetId' element={<SingleTweet />} />
+				<PrivateRoutes path='/:userName' element={<UserProfile />} />
+				<PrivateRoutes
+					exact
+					path='/connect'
+					element={<ConnectToPeopleContainer />}
+				/>
+				<PrivateRoutes path='/:userName/following' element={<FollowPage />} />
+				<PrivateRoutes path='/:userName/followers' element={<FollowPage />} />
+				<PrivateRoutes path='/' exact element={<PostsContainer />} />
+
+				<PublicRoutes path='/login' element={<Login />} />
+				<PublicRoutes path='/signup' element={<SignUp />} />
+			</Routes>
+		</div>
+	);
 }
 
 export default App;
